@@ -41,27 +41,19 @@ variable "must_have_special_character" {
 #  Variables for Aws Secret Manager
 ###########################################
 
-variable "db_username" {
-  description = "Database username"
-  type        = string
-  default     = null
+variable "secret" {
+  description = "Details configuration for secrets"
+  type        = map(any)
+  default = {
+    secret_name = {
+      description     = "demo secret"
+      db_name         = null
+      recovery_window = 0   # Maximum 30 days
+      tags            = {
+      "Name" = "Demo-Secret"
+      }
+    }
+  }
 }
 
-variable "secret_name" {
-  description = "Secret Name of AWS Secrets Manager"
-  type        = string
-  default     = null
-}
 
-
-variable "recovery_window" {
-  description = "Recovery window of an existed secret"
-  type        = number
-  default     = 0
-}
-
-variable "secret_tags" {
-  description = "Tags for secrets"
-  type = map(any)
-  default = {}
-}

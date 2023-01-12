@@ -1,4 +1,5 @@
 resource "random_password" "password" {
+  for_each         = var.secret
   length           = var.password_length
   min_upper        = var.min_upper
   min_lower        = var.min_lower
@@ -7,26 +8,22 @@ resource "random_password" "password" {
   override_special = var.must_have_special_character
 }
 
-locals {
-
-  credentials = {
-
-    username = var.db_username
-    password = random_password.password.result
-
-  }
-}
 
 resource "aws_secretsmanager_secret" "secret_mysql_db" {
-  name                    = var.secret_name
-  recovery_window_in_days = var.recovery_window
-
-  tags = var.secret_tags
+  for_each                = var.secret
+  name                    = each.key
+  recovery_window_in_days = var.secret[each.key].recovery_window
 }
 
 
 resource "aws_secretsmanager_secret_version" "secret_mysql_db_version" {
-  secret_id     = aws_secretsmanager_secret.secret_mysql_db.id
-  secret_string = jsonencode(local.credentials)
+  for_each  = var.secret
+  secret_id = aws_secretsmanager_secret.secret_mysql_db[each.key].id
+  secret_string = jsonencode(
+    {
+      description = var.secret[each.key].description
+      username    = var.secret[each.key].db_name
+      password    = random_password.password[each.key].result
+    }
+  )
 }
-
