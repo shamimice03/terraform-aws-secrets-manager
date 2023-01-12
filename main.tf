@@ -5,7 +5,6 @@ resource "random_password" "password" {
   min_special      = var.min_special
   min_numeric      = var.min_numeric
   override_special = var.must_have_special_character
-  count = 3
 }
 
 locals {
@@ -13,7 +12,7 @@ locals {
   credentials = {
 
     username = var.db_username
-    password = random_password.password[0].result
+    password = random_password.password.result
 
   }
 }
