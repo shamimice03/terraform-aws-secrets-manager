@@ -9,16 +9,16 @@ resource "random_password" "password" {
 }
 
 
-resource "aws_secretsmanager_secret" "secret_mysql_db" {
+resource "aws_secretsmanager_secret" "db_secret" {
   for_each                = var.secret
   name                    = each.key
   recovery_window_in_days = var.secret[each.key].recovery_window
 }
 
 
-resource "aws_secretsmanager_secret_version" "secret_mysql_db_version" {
+resource "aws_secretsmanager_secret_version" "db_secret_version" {
   for_each  = var.secret
-  secret_id = aws_secretsmanager_secret.secret_mysql_db[each.key].id
+  secret_id = aws_secretsmanager_secret.db_secret[each.key].id
   secret_string = jsonencode(
     {
       description = var.secret[each.key].description

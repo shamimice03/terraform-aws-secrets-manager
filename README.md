@@ -1,3 +1,5 @@
+# Sample "terraform.tfvars" file
+
 ```
 password_length             = 40
 min_upper                   = 5

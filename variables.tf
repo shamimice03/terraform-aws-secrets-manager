@@ -48,9 +48,9 @@ variable "secret" {
     secret_name = {
       description     = "demo secret"
       db_name         = null
-      recovery_window = 0   # Maximum 30 days
-      tags            = {
-      "Name" = "Demo-Secret"
+      recovery_window = 0 # Maximum 30 days
+      tags = {
+        "Name" = "Demo-Secret"
       }
     }
   }
