@@ -21,8 +21,8 @@ resource "aws_secretsmanager_secret_version" "db_secret_version" {
   secret_id = aws_secretsmanager_secret.db_secret[each.key].id
   secret_string = jsonencode(
     {
-      description = var.secret[each.key].description
-      username    = var.secret[each.key].db_name
+      description = var.secret[each.key].description != null ? var.secret[each.key].description : "demo-secret"
+      username    = var.secret[each.key].db_username != null ? var.secret[each.key].db_username : "admin"
       password    = random_password.password[each.key].result
     }
   )

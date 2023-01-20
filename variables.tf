@@ -34,7 +34,7 @@ variable "min_special" {
 variable "must_have_special_character" {
   description = "Define the must have special character"
   type        = string
-  default     = "@#"
+  default     = "@$"
 }
 
 ###########################################
@@ -46,8 +46,8 @@ variable "secret" {
   type        = map(any)
   default = {
     secret_name = {
-      description     = "demo secret"
-      db_name         = null
+      description     = null
+      db_username     = null
       recovery_window = 0 # Maximum 30 days
       tags = {
         "Name" = "Demo-Secret"
